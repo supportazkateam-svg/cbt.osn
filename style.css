@@ -1,0 +1,154 @@
+*{
+ margin:0;
+ padding:0;
+ box-sizing:border-box;
+}
+
+body{
+ font-family:Arial;
+ background:#f1f5f9;
+}
+
+header{
+ background:#0f172a;
+ color:white;
+ height:60px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ padding:0 20px;
+}
+
+.container{
+ display:flex;
+ height:calc(100vh - 60px);
+}
+
+.sidebar{
+ width:260px;
+ background:white;
+ border-right:1px solid #ddd;
+ padding:15px;
+ overflow:auto;
+}
+
+.nav-grid{
+ display:grid;
+ grid-template-columns:repeat(5,1fr);
+ gap:10px;
+}
+
+.nav-grid button{
+ height:45px;
+ border:none;
+ border-radius:10px;
+ background:#dbeafe;
+ cursor:pointer;
+ font-weight:bold;
+}
+
+.nav-grid button.active{
+ background:#2563eb;
+ color:white;
+}
+
+.main{
+ flex:1;
+ padding:25px;
+ overflow:auto;
+}
+
+.card{
+ background:white;
+ border-radius:20px;
+ padding:25px;
+ box-shadow:0 4px 12px rgba(0,0,0,0.08);
+ animation:fade 0.3s ease;
+}
+
+@keyframes fade{
+ from{
+  opacity:0;
+  transform:translateY(10px);
+ }
+ to{
+  opacity:1;
+  transform:translateY(0);
+ }
+}
+
+.opsi button{
+ width:100%;
+ text-align:left;
+ margin:10px 0;
+ padding:15px;
+ border:none;
+ border-radius:12px;
+ background:#f1f5f9;
+ cursor:pointer;
+ transition:0.2s;
+}
+
+.opsi button:hover{
+ background:#dbeafe;
+}
+
+.selected{
+ background:#2563eb !important;
+ color:white;
+}
+
+.login{
+ position:fixed;
+ inset:0;
+ background:linear-gradient(135deg,#0f172a,#1e3a8a);
+ color:white;
+ display:flex;
+ flex-direction:column;
+ justify-content:center;
+ align-items:center;
+ z-index:999;
+}
+
+.login input{
+ width:280px;
+ padding:12px;
+ border:none;
+ border-radius:10px;
+ margin:15px 0;
+}
+
+.login button,
+.action{
+ padding:12px 20px;
+ border:none;
+ border-radius:10px;
+ background:#2563eb;
+ color:white;
+ cursor:pointer;
+}
+
+.result-box{
+ height:100vh;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ background:linear-gradient(135deg,#1e3a8a,#2563eb);
+ color:white;
+}
+
+.result-card{
+ background:white;
+ color:#111;
+ padding:40px;
+ border-radius:25px;
+ width:350px;
+ text-align:center;
+ box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+.score{
+ font-size:60px;
+ color:#2563eb;
+ margin:20px 0;
+}
