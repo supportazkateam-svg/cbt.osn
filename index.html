@@ -2,379 +2,52 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CBT ANBK 2026</title>
-
-<style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-body{
-  font-family:Arial,sans-serif;
-  background:#f1f5f9;
-  overflow:hidden;
-}
-
-header{
-  height:60px;
-  background:#0f172a;
-  color:white;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:0 20px;
-}
-
-.container{
-  display:flex;
-  height:calc(100vh - 60px);
-}
-
-.sidebar{
-  width:260px;
-  background:white;
-  border-right:1px solid #ddd;
-  padding:15px;
-  overflow-y:auto;
-}
-
-.sidebar h2{
-  margin-bottom:15px;
-  color:#0f172a;
-}
-
-.nav-grid{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:10px;
-}
-
-.nav-grid button{
-  height:45px;
-  border:none;
-  border-radius:10px;
-  background:#dbeafe;
-  cursor:pointer;
-  font-weight:bold;
-}
-
-.nav-grid button.active{
-  background:#2563eb;
-  color:white;
-}
-
-.main{
-  flex:1;
-  padding:25px;
-  overflow-y:auto;
-}
-
-.card{
-  background:white;
-  border-radius:20px;
-  padding:25px;
-  box-shadow:0 4px 12px rgba(0,0,0,0.08);
-}
-
-.info{
-  display:flex;
-  gap:15px;
-  margin-bottom:20px;
-}
-
-.badge{
-  background:#e2e8f0;
-  padding:10px 15px;
-  border-radius:10px;
-}
-
-#soal{
-  margin:20px 0;
-  font-size:20px;
-}
-
-.opsi button{
-  width:100%;
-  text-align:left;
-  margin:10px 0;
-  padding:15px;
-  border:none;
-  border-radius:12px;
-  background:#f1f5f9;
-  cursor:pointer;
-  transition:0.2s;
-}
-
-.opsi button:hover{
-  background:#dbeafe;
-}
-
-.selected{
-  background:#2563eb !important;
-  color:white;
-}
-
-.action{
-  margin-top:20px;
-  padding:12px 20px;
-  border:none;
-  border-radius:10px;
-  background:#2563eb;
-  color:white;
-  cursor:pointer;
-}
-
-.login{
-  position:fixed;
-  inset:0;
-  background:#0f172a;
-  color:white;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  z-index:999;
-}
-
-.login input{
-  width:280px;
-  padding:12px;
-  border:none;
-  border-radius:10px;
-  margin:15px 0;
-}
-
-.login button{
-  padding:12px 20px;
-  border:none;
-  border-radius:10px;
-  background:#2563eb;
-  color:white;
-  cursor:pointer;
-}
-
-#hasil{
-  margin-top:20px;
-  font-size:20px;
-  font-weight:bold;
-}
-</style>
+<title>CBT ANBK</title>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <div class="login" id="loginBox">
-  <h1>CBT ANBK 2026</h1>
-  <input type="text" id="nama" placeholder="Masukkan nama peserta">
-  <button onclick="mulai()">Mulai Ujian</button>
+ <h1>CBT ANBK 2026</h1>
+ <input type="text" id="nama"
+ placeholder="Masukkan nama peserta">
+ <button onclick="login()">Mulai Ujian</button>
 </div>
 
 <header>
-  <div id="user">Peserta</div>
-  <div id="timer">60:00</div>
+ <div id="user">Peserta</div>
+ <div id="timer">60:00</div>
 </header>
 
 <div class="container">
 
-  <div class="sidebar">
-    <h2>Daftar Soal</h2>
-    <div class="nav-grid" id="nav"></div>
-  </div>
+ <div class="sidebar">
+  <h2>Daftar Soal</h2>
+  <div class="nav-grid" id="nav"></div>
+ </div>
 
-  <div class="main">
+ <div class="main">
 
-    <div class="info">
-      <div class="badge">Mapel: IPA</div>
-      <div class="badge">Status: Sedang Mengerjakan</div>
-    </div>
+  <div class="card">
 
-    <div class="card">
+   <h2 id="nomor"></h2>
 
-      <h2 id="nomor"></h2>
+   <p id="soal"></p>
 
-      <div id="soal"></div>
+   <div class="opsi" id="opsi"></div>
 
-      <div class="opsi" id="opsi"></div>
-
-      <button class="action" onclick="submitUjian()">
-        Selesai Ujian
-      </button>
-
-      <div id="hasil"></div>
-
-    </div>
+   <button class="action"
+   onclick="submitUjian()">
+    Selesai Ujian
+   </button>
 
   </div>
+
+ </div>
 
 </div>
 
-<script>
-const bankSoal = [
-{
- t:"Planet terpanas dalam tata surya adalah...",
- o:["Merkurius","Venus","Mars","Jupiter"],
- j:"Venus"
-},
-{
- t:"Rumus luas lingkaran adalah...",
- o:["πr²","2πr","πd","r²"],
- j:"πr²"
-},
-{
- t:"Planet terbesar adalah...",
- o:["Mars","Bumi","Jupiter","Saturnus"],
- j:"Jupiter"
-},
-{
- t:"Satuan gaya adalah...",
- o:["Newton","Joule","Pascal","Watt"],
- j:"Newton"
-}
-];
-
-function shuffle(arr){
- return arr.sort(()=>Math.random()-0.5);
-}
-
-let soal = shuffle([...bankSoal]).map(s=>({
- ...s,
- o:shuffle([...s.o])
-}));
-
-let current = 0;
-let jawaban = [];
-
-// LOGIN
-function mulai(){
- const nama=document.getElementById("nama").value;
-
- if(!nama){
-  alert("Isi nama dulu!");
-  return;
- }
-
- document.getElementById("loginBox").style.display="none";
- document.getElementById("user").innerText=nama;
-
- document.documentElement.requestFullscreen();
-
- renderNav();
- tampilSoal(0);
-}
-
-// NAVIGASI
-function renderNav(){
- let html="";
-
- soal.forEach((_,i)=>{
-  html+=`
-   <button onclick="tampilSoal(${i})" id="nav${i}">
-    ${i+1}
-   </button>
-  `;
- });
-
- document.getElementById("nav").innerHTML=html;
-}
-
-// TAMPIL SOAL
-function tampilSoal(i){
- current=i;
-
- document.querySelectorAll(".nav-grid button")
- .forEach(btn=>btn.classList.remove("active"));
-
- document.getElementById(`nav${i}`)
- .classList.add("active");
-
- let s=soal[i];
-
- document.getElementById("nomor")
- .innerText=`Soal ${i+1}`;
-
- document.getElementById("soal")
- .innerText=s.t;
-
- let html="";
-
- s.o.forEach(o=>{
-
-  let selected = jawaban[i]===o ? "selected" : "";
-
-  html+=`
-   <button class="${selected}"
-   onclick="pilihJawaban('${o}')">
-    ${o}
-   </button>
-  `;
- });
-
- document.getElementById("opsi").innerHTML=html;
-}
-
-// PILIH JAWABAN
-function pilihJawaban(o){
- jawaban[current]=o;
-
- tampilSoal(current);
-}
-
-// SUBMIT
-function submitUjian(){
-
- let skor=0;
-
- soal.forEach((s,i)=>{
-  if(jawaban[i]===s.j){
-   skor++;
-  }
- });
-
- let nilai=Math.round((skor/soal.length)*100);
-
- document.getElementById("hasil")
- .innerHTML=`
-  Skor: ${skor}/${soal.length}<br>
-  Nilai: ${nilai}
- `;
-}
-
-// TIMER
-let waktu=3600;
-
-setInterval(()=>{
-
- let menit=Math.floor(waktu/60);
- let detik=waktu%60;
-
- document.getElementById("timer")
- .innerText=
- `${menit}:${detik<10?'0':''}${detik}`;
-
- waktu--;
-
- if(waktu<=0){
-  submitUjian();
- }
-
-},1000);
-
-// ANTI PINDAH TAB
-document.addEventListener("visibilitychange",()=>{
-
- if(document.hidden){
-  alert("Peringatan: Jangan keluar dari halaman ujian!");
- }
-
-});
-
-// DISABLE KLIK KANAN
-document.addEventListener("contextmenu",
-e=>e.preventDefault());
-</script>
-
+<script src="app.js"></script>
 </body>
 </html>
