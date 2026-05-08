@@ -13,14 +13,14 @@ const bankSoal = [
   j:"Venus"
  },
  {
-  t:"Rumus luas lingkaran adalah...",
-  o:["πr²","2πr","πd","r²"],
-  j:"πr²"
- },
- {
   t:"Planet terbesar adalah...",
   o:["Mars","Bumi","Jupiter","Saturnus"],
   j:"Jupiter"
+ },
+ {
+  t:"Rumus luas lingkaran adalah...",
+  o:["πr²","2πr","πd","r²"],
+  j:"πr²"
  },
  {
   t:"Satuan gaya adalah...",
@@ -29,12 +29,10 @@ const bankSoal = [
  }
 ];
 
-// SHUFFLE SOAL
 function shuffle(arr){
  return arr.sort(()=>Math.random()-0.5);
 }
 
-// LOGIN
 app.post("/login",(req,res)=>{
 
  const {nama}=req.body;
@@ -52,14 +50,10 @@ app.post("/login",(req,res)=>{
   jawaban:[]
  };
 
- res.json({
-  id,
-  soal
- });
+ res.json({id,soal});
 
 });
 
-// SIMPAN JAWABAN
 app.post("/jawab",(req,res)=>{
 
  const {id,index,jawaban}=req.body;
@@ -72,7 +66,6 @@ app.post("/jawab",(req,res)=>{
 
 });
 
-// SUBMIT
 app.post("/submit",(req,res)=>{
 
  const {id}=req.body;
@@ -99,5 +92,5 @@ app.post("/submit",(req,res)=>{
 });
 
 app.listen(3000,()=>{
- console.log("CBT Online berjalan di port 3000");
+ console.log("CBT berjalan di port 3000");
 });
