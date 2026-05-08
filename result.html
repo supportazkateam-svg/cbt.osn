@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Hasil CBT</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="result-box">
+
+ <div class="result-card">
+
+  <h1>Hasil Ujian</h1>
+
+  <h2 id="nama"></h2>
+
+  <div class="score" id="nilai"></div>
+
+  <p id="detail"></p>
+
+ </div>
+
+</div>
+
+<script>
+
+const data =
+JSON.parse(localStorage.getItem("hasil"));
+
+document.getElementById("nama")
+.innerText=data.nama;
+
+document.getElementById("nilai")
+.innerText=data.nilai;
+
+document.getElementById("detail")
+.innerHTML=
+`Skor benar:
+${data.skor}`;
+
+</script>
+
+</body>
+</html>
